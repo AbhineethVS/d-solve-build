@@ -7,10 +7,11 @@ Hackathon: **Thu 6:00 PM → Sat 6:00 AM code freeze** (see event brochure).
 ## Before coding (now)
 
 - [x] Problem = PS1  
-- [x] Core stack locked (PyTorch train → FastAPI → React)  
+- [x] Core stack locked (hybrid: EfficientNet train + vision API + FastAPI + React)  
 - [x] Docs written (`README`, `PLAN`, `ARCHITECTURE`, `DATASETS`)  
 - [ ] Team agrees on cut list (no extras before core)  
-- [ ] Kaggle account ready + dataset accepted  
+- [ ] Kaggle account ready + dataset accepted ([oral-diseases](https://www.kaggle.com/datasets/salmansajid05/oral-diseases))  
+- [ ] Colab GPU runtime ready + Kaggle API token for download  
 - [x] GitHub repo created (public, per rules)  
 - [x] Who owns what decided — see `docs/TEAM.md` (all 4 code: P1 api, P2 train, P3 capture, P4 report)  
 
@@ -20,15 +21,16 @@ Hackathon: **Thu 6:00 PM → Sat 6:00 AM code freeze** (see event brochure).
 
 - [ ] One-sentence pitch ready for mentors  
 - [ ] Show this docs folder / architecture diagram  
-- [ ] Confirm: training on Kaggle, demo on laptop CPU  
+- [ ] Vision API key in `api/.env` (OpenAI or Gemini) — not committed  
+- [ ] Confirm: CNN train on Kaggle/Colab; hybrid analyze on laptop; demo on phone  
 - [ ] Scaffold started: empty `train/`, `api/`, `web/`  
 
 ---
 
 ## Night 1 — pipeline skeleton
 
-- [ ] Kaggle: data downloaded, folders mapped to classes  
-- [ ] Training job launched (or queued)  
+- [ ] Colab: data downloaded from Kaggle, folders mapped to classes  
+- [ ] Colab: training job launched (or queued)  
 - [ ] FastAPI: `/health` + `/analyze` with **dummy** predictions  
 - [ ] Web: 5 capture steps + wired to API (even if dummy)  
 - [ ] CORS works phone ↔ laptop  
@@ -76,7 +78,7 @@ Hackathon: **Thu 6:00 PM → Sat 6:00 AM code freeze** (see event brochure).
 1. Problem: people delay dental visits; need a 2-minute visual check  
 2. Capture five photos live  
 3. Show report + confidence  
-4. “We trained EfficientNet-B0 on Kaggle Oral Diseases — here’s F1”  
+4. “Hybrid: EfficientNet we trained for discoloration + vision API for crooked/wear — here’s F1 and why”  
 5. Limitations: screening only; wear/crooked not in v1 checkpoint; phone ≠ clinic  
 6. Next: evidence crops / 3D pins (if built) or roadmap  
 

@@ -1,7 +1,7 @@
 # Plan — locked MVP
 
 **Event:** DSOLVE 2026 (PS1 — Oral Health Screening Widget)  
-**Status:** Core plan locked. Extras only after end-to-end pipeline works.
+**Status:** Core plan locked — **hybrid analysis** (trained CNN + vision API).
 
 ---
 
@@ -19,9 +19,7 @@ Build a free ~2-minute widget (web or phone) that:
 
 ## Our product story (what we lead with)
 
-Not “generic AI that screens teeth.”
-
-> Five guided phone photos → a model **we trained** on public oral-disease images → clear findings with confidence and an honest “consider a visit” outcome. Screening only; phone photos, not a clinic exam.
+> Five guided phone photos → **hybrid screening**: a model **we trained** for discoloration (and related visible conditions) **plus** a vision API (GPT/Gemini) for crooked teeth and wear — fused into one patient-friendly report. Screening only; not a diagnosis.
 
 Later differentiators (after core): 3D anterior pins, evidence crops, anterior-only honesty.
 
@@ -32,40 +30,42 @@ Later differentiators (after core): 3D anterior pins, evidence crops, anterior-o
 | # | Feature | Done when |
 |---|---|---|
 | 1 | Guided 5-photo capture | User can take/upload frontal, upper, lower, left, right |
-| 2 | Trained classifier | EfficientNet-B0 fine-tuned on Oral Diseases (Kaggle); `best.pt` saved |
-| 3 | Inference API | `POST /analyze` returns labels + confidence per image |
-| 4 | Report UI | Shows 5 photos + findings list + overall screening recommendation |
-| 5 | README + setup | Judges can understand and run the demo |
-| 6 | Pitch video | >30s, English, posted per event rules |
+| 2 | Trained classifier | EfficientNet-B0 on Oral Diseases; `best.pt` (discoloration + other) |
+| 3 | Vision API path | GPT or Gemini analyzes same 5 photos for **crooked** + **wear** (+ optional colour confirm) |
+| 4 | Fusion in `/analyze` | One JSON report with PS1 buckets + sources (`trained_model` / `vision_api`) |
+| 5 | Report UI | 5 photos + findings for crooked / wear / discoloration + overall recommendation |
+| 6 | README + setup | Judges can run demo; API key via `.env` (not committed) |
+| 7 | Pitch video | >30s, English, posted per event rules |
 
 ---
 
 ## Explicitly cut until core is green
 
 - 3D jaw / FDI tooth pins  
-- Fine-tune-vs-zero-shot dual path / Gemini as primary  
 - Chatbot, clinic map, auth, Postgres  
 - Flutter / second app  
-- Wear as a trained class (no solid public photo set — say so in pitch)  
-- Disease taxonomy beyond what the checkpoint supports  
+- Training a wear or crooked CNN (no solid labels — use vision API instead)  
+- Multi-model tooth/gum/occlusion stack  
 
 ---
 
-## Model ↔ PS1 mapping
+## Who detects what (hybrid)
 
-**Train first:** multi-class on Oral Diseases (includes **Tooth Discoloration** + related visible conditions).
+| PS1 concern | Primary source | Fallback |
+|---|---|---|
+| **Discoloration** | Trained EfficientNet-B0 | Vision API if model missing / low conf |
+| **Crooked teeth** | Vision API | — |
+| **Tooth wear** | Vision API | — |
+| Other (calculus, caries, gingivitis, …) | Trained model → `other_visual_concern` | Optional; don’t lead the pitch |
 
-| Model class | Report language |
-|---|---|
-| Tooth Discoloration | Discoloration / staining |
-| Calculus, Caries, Gingivitis, Ulcer, Hypodontia | “Other visual concern” (data-backed bonus) |
-| Crooked / crowding | Phase 2 model **only if** primary checkpoint is done |
-| Wear | Not trained — disclosed limitation |
+**Fusion rules:**
 
-Overall score:
-
-- High-confidence concern on any view → **Consider a dental visit**
-- Else → **No obvious visual concern from these photos**
+1. Run CNN + vision API **in parallel** on the five images.  
+2. Report always structured around the **three PS1 concerns** first.  
+3. Discoloration: prefer CNN if confidence ≥ threshold; else vision API.  
+4. Crooked / wear: vision API only.  
+5. Any high-confidence PS1 concern → `consider_visit`; else `no_obvious_concern`.  
+6. Each finding includes `source`: `trained_model` | `vision_api`.
 
 Always show disclaimer: screening ≠ diagnosis.
 
@@ -77,19 +77,19 @@ See **[`docs/TEAM.md`](TEAM.md)**. Pitch/demo is **endgame**, not a dedicated ro
 
 | Code | Role | Owns |
 |---|---|---|
-| **P1 (You)** | Lead / API | `api/`, model load, merges, integration |
-| **P2** | Training | `train/`, Kaggle, `best.pt`, metrics |
+| **P1 (You)** | Lead / API | `api/`, CNN load, vision API client, **fusion**, merges |
+| **P2** | Training | Kaggle/Colab train, `best.pt`, metrics |
 | **P3** | Capture UI | `web/` guided 5-photo flow + camera |
-| **P4** | Report UI | `web/` analyzing + report + API client |
+| **P4** | Report UI | findings by PS1 concern + source badges + API client |
 
 ---
 
 ## Success criteria for “core ready”
 
-1. Teammate’s mouth (or curated sample set) → 5 photos → report in &lt;30s  
-2. Checkpoint runs on laptop CPU for the live demo  
-3. Someone can explain: dataset, split, architecture, val F1/accuracy, failure modes  
-4. No dependency on forked dental product repos  
+1. Teammate’s mouth (or samples) → 5 photos → report covering crooked / wear / discoloration where visible  
+2. Demo works if CNN missing (vision-only) **or** if API down (CNN + honest gaps) — prefer both up  
+3. Explain: dataset, F1, why hybrid, limitations  
+4. No forked dental product repos  
 
 ---
 
@@ -97,6 +97,5 @@ See **[`docs/TEAM.md`](TEAM.md)**. Pitch/demo is **endgame**, not a dedicated ro
 
 1. Evidence crop / highlight on the source photo  
 2. Anterior-only copy + tooth-number hints by view  
-3. Optional second model for crowding/crooked  
-4. 3D pinned viewer  
-5. Polish only  
+3. 3D pinned viewer  
+4. Polish only  

@@ -1,52 +1,44 @@
 ---
 name: fastapi-screening
-description: FastAPI patterns for the oral screening analyze API — multipart uploads, model load on startup, Pydantic report schema, CORS, dummy-to-real checkpoint swap. Use when working in api/, writing /analyze, health checks, or serving the React build.
+description: FastAPI hybrid oral screening API — multipart uploads, EfficientNet load, vision API (GPT/Gemini) for crooked/wear, fusion into PS1 report JSON. Use when working in api/, /analyze, health, or env keys.
 ---
 
-# FastAPI — screening API
+# FastAPI — hybrid screening API
 
 ## Scope
 
-One service. No auth, no DB, no chatbot routes in core.
+One service: CNN + vision API + fusion. No auth, no DB, no chatbot.
 
 ## Layout
 
 ```
 api/
-  main.py          # app, CORS, lifespan
-  schemas.py       # Pydantic request/response
-  inference.py     # load model, predict_one, aggregate
+  main.py           # app, CORS, lifespan
+  schemas.py        # Pydantic report (PS1 concerns + source)
+  inference.py      # CNN load + predict
+  vision.py         # GPT or Gemini client
+  fusion.py         # merge into summary
   requirements.txt
 ```
 
 ## Endpoints
 
-- `GET /health` → `{ status, model_loaded, classes }`  
-- `POST /analyze` → multipart fields: `frontal`, `upper`, `lower`, `left`, `right`
+- `GET /health` → `{ status, model_loaded, vision_api_configured, classes }`  
+- `POST /analyze` → multipart `frontal|upper|lower|left|right`
 
-Match response shape in `docs/ARCHITECTURE.md`.
+Match `docs/ARCHITECTURE.md` (D-015).
 
 ## Patterns
 
-- Load `best.pt` once in **lifespan** (not per request)  
-- Env: `MODEL_PATH`, `CORS_ORIGINS`, `CONFIDENCE_THRESHOLD` (default `0.55`)  
-- If weights missing: still boot; `/analyze` returns clearly marked **dummy** predictions so UI can develop  
-- CPU inference; `torch.inference_mode()`  
-- Validate content-type loosely (jpeg/png/webp); reject huge files (e.g. >8MB each)  
-- Never log raw image bytes  
+- Load `best.pt` once in lifespan; if missing, vision-only still works  
+- Env: `MODEL_PATH`, `CORS_ORIGINS`, `CONFIDENCE_THRESHOLD`, `VISION_PROVIDER`, `OPENAI_API_KEY` / `GEMINI_API_KEY`  
+- Run CNN + vision **in parallel** (asyncio / threads)  
+- Fusion: discoloration prefer CNN; crooked+wear from vision; tag `source`  
+- Never commit `.env`; never log raw images  
 
-## Aggregation
+## Deps
 
-1. Softmax per view  
-2. Map class → `report_tag` via `class_map.json`  
-3. Any concern above threshold → `overall: consider_visit` else `no_obvious_concern`  
-4. Always include disclaimer string  
-
-## Deps (keep lean)
-
-`fastapi`, `uvicorn[standard]`, `python-multipart`, `pillow`, `torch`, `timm`, `pydantic`, `python-dotenv`
-
-No SQLAlchemy, no JWT, no Redis for MVP.
+`fastapi`, `uvicorn[standard]`, `python-multipart`, `pillow`, `torch`, `timm`, `pydantic`, `python-dotenv`, `httpx` (or official OpenAI/Google SDKs)
 
 ## Local run
 

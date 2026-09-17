@@ -1,6 +1,6 @@
 # Oral Health Screening Widget (DSOLVE 2026 — PS1)
 
-Two-minute oral health screening widget: capture **five** guided tooth photos → run a **team-trained** image classifier → show an instant visual report.
+Two-minute oral health screening widget: capture **five** guided tooth photos → **hybrid analysis** (team-trained CNN + vision API) → instant visual report for **crooked teeth, wear, and discoloration**.
 
 **Scope:** Screening only. Not a diagnosis. Anterior-focused phone photos.
 
@@ -9,10 +9,12 @@ Two-minute oral health screening widget: capture **five** guided tooth photos �
 ## What we are building (core)
 
 1. Guided capture of 5 images (frontal, upper, lower, left, right)
-2. Backend inference with our fine-tuned EfficientNet-B0 checkpoint
-3. Instant report: labels + confidence + “consider a dental visit / no obvious visual concern”
+2. **EfficientNet-B0** we fine-tune on Oral Diseases → discoloration (+ other visual concerns)
+3. **Vision API** (GPT-4o or Gemini) → crooked teeth + tooth wear
+4. FastAPI **fuses** both into one report with confidence + source
+5. Overall: “consider a dental visit” / “no obvious visual concern”
 
-**Parked until core works:** 3D tooth pins, chatbot, clinic locator, Flutter, auth, database, wear classifier without data.
+**Parked until core works:** 3D tooth pins, chatbot, clinic locator, Flutter, auth, database.
 
 ---
 
@@ -20,9 +22,10 @@ Two-minute oral health screening widget: capture **five** guided tooth photos �
 
 | Layer | Choice |
 |---|---|
-| Train | Python 3.11, PyTorch, `timm`, Kaggle GPU |
-| Model | EfficientNet-B0 (ImageNet → fine-tune) |
-| API | FastAPI + Uvicorn |
+| Train | PyTorch + `timm`, Kaggle Notebook or Colab GPU |
+| CNN | EfficientNet-B0 on [Oral Diseases](https://www.kaggle.com/datasets/salmansajid05/oral-diseases) |
+| Vision API | GPT-4o **or** Gemini Flash (env-selected) |
+| API | FastAPI + Uvicorn (CNN + vision + fusion) |
 | App | Vite + React + TypeScript + Tailwind |
 | Data | Session only — no DB for MVP |
 
@@ -31,11 +34,11 @@ Two-minute oral health screening widget: capture **five** guided tooth photos �
 ## Repo layout (target)
 
 ```
-/train     dataset prep + training scripts + metrics plots
-/api       POST /analyze — loads best.pt
+/train     training scripts + metrics
+/api       POST /analyze — CNN + vision API + fusion
 /web       5-shot capture UI + report screen
-/docs      plan, architecture, datasets, runbooks
-/weights   best.pt (or release link — keep repo lean)
+/docs      plan, architecture, datasets, decisions
+/weights   best.pt (gitignored / release link)
 ```
 
 ---
@@ -43,7 +46,7 @@ Two-minute oral health screening widget: capture **five** guided tooth photos �
 ## Quick start (after scaffold)
 
 ```bash
-# API
+# API — set OPENAI_API_KEY or GEMINI_API_KEY in api/.env
 cd api
 python -m venv .venv
 .\.venv\Scripts\activate   # Windows
@@ -56,15 +59,15 @@ npm install
 npm run dev
 ```
 
-Training: see [`docs/DATASETS.md`](docs/DATASETS.md) and [`train/README.md`](train/README.md) (added with scaffold).
+See [`docs/PLAN.md`](docs/PLAN.md), [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), [`docs/DATASETS.md`](docs/DATASETS.md).
 
 ---
 
 ## Rules we care about
 
 - Build during the 36-hour window. No forking pre-built dental screening products.
-- Public datasets, frameworks, and pretrained backbones are allowed.
-- We must explain architecture, training, and limitations in Q&A.
+- Public datasets, frameworks, and pretrained AI models / APIs are allowed.
+- We must explain architecture, training, hybrid fusion, and limitations in Q&A.
 
 ---
 
@@ -72,13 +75,13 @@ Training: see [`docs/DATASETS.md`](docs/DATASETS.md) and [`train/README.md`](tra
 
 | Doc | Purpose |
 |---|---|
-| [`docs/PLAN.md`](docs/PLAN.md) | Locked MVP + cut list + pitch |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Pipeline, API contract, folders |
+| [`docs/PLAN.md`](docs/PLAN.md) | Locked MVP + hybrid mapping + cut list |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Pipeline, API contract, fusion |
 | [`docs/DATASETS.md`](docs/DATASETS.md) | What we train on and why |
 | [`docs/CHECKLIST.md`](docs/CHECKLIST.md) | 36-hour checkpoints |
 | [`docs/DECISIONS.md`](docs/DECISIONS.md) | Living decision log — agents must update |
 | [`docs/TEAM.md`](docs/TEAM.md) | 4-person work split |
-| [`docs/SKILLS.md`](docs/SKILLS.md) | Agent skills installed for this repo |
+| [`docs/SKILLS.md`](docs/SKILLS.md) | Agent skills |
 
 ---
 

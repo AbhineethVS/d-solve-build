@@ -18,12 +18,8 @@ Global Cursor: `~/.cursor/skills/`
 
 | Skill | Use for |
 |---|---|
-| `dsolve-mvp` | Scope lock, cut list, anti-clone rules |
-| `ui-ux-screening` | Widget design tokens, capture/report UX |
-| `frontend-design` | Avoid generic AI UI defaults |
-| `web-capture-widget` | Vite/React 5-photo flow |
-| `fastapi-screening` | `/analyze` API + model serving |
-| `pytorch-oral-train` | Kaggle train + `best.pt` export |
+| `dsolve-mvp` | Scope lock, hybrid CNN+vision, cut list |
+| `fastapi-screening` | `/analyze` CNN + vision API + fusion |
 
 ## Portability (as of now)
 

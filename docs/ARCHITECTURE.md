@@ -1,4 +1,4 @@
-# Architecture — core pipeline
+# Architecture — hybrid core pipeline
 
 ```
 [ Web: 5 guided captures ]
@@ -7,19 +7,21 @@
             v
 [ FastAPI  POST /analyze ]
             |
-            | preprocess 224x224
+      ┌─────┴─────┐
+      │ parallel  │
+      v           v
+[ EfficientNet-B0 ]   [ Vision API: GPT-4o or Gemini Flash ]
+[ best.pt Softmax ]   [ crooked + wear (+ optional colour) ]
+      │           │
+      └─────┬─────┘
             v
-[ EfficientNet-B0 + best.pt ]
-            |
-            | softmax per image
-            v
-[ Aggregate → screening report JSON ]
+[ Fusion → PS1 report JSON ]
             |
             v
 [ Web: photos + findings + overall ]
 ```
 
-Training is offline (Kaggle GPU). The venue laptop only runs inference.
+Training is offline (**Kaggle Notebook or Colab** GPU + Kaggle Oral Diseases). Laptop runs CNN inference + vision API calls.
 
 ---
 
@@ -27,11 +29,11 @@ Training is offline (Kaggle GPU). The venue laptop only runs inference.
 
 | Path | Responsibility |
 |---|---|
-| `train/` | Download notes, `train.py`, transforms, class map, plots |
-| `api/` | App, model loader, `/analyze`, schemas |
-| `web/` | Capture screens, API client, report screen |
-| `weights/` | `best.pt` (+ `class_map.json`) — prefer LFS or external zip |
-| `docs/` | This documentation |
+| `train/` | Train scripts / notebook notes, class map, plots |
+| `api/` | `/analyze`, CNN loader, vision client, fusion |
+| `web/` | Capture + report |
+| `weights/` | `best.pt` + `class_map.json` (not huge commits) |
+| `docs/` | Plan, architecture, decisions |
 
 ---
 
@@ -40,20 +42,17 @@ Training is offline (Kaggle GPU). The venue laptop only runs inference.
 ### `GET /health`
 
 ```json
-{ "status": "ok", "model_loaded": true, "classes": ["..."] }
+{
+  "status": "ok",
+  "model_loaded": true,
+  "vision_api_configured": true,
+  "classes": ["..."]
+}
 ```
 
 ### `POST /analyze`
 
-**Request:** multipart form
-
-| Field | Type | Required |
-|---|---|---|
-| `frontal` | file | yes |
-| `upper` | file | yes |
-| `lower` | file | yes |
-| `left` | file | yes |
-| `right` | file | yes |
+**Request:** multipart — `frontal`, `upper`, `lower`, `left`, `right` (files).
 
 **Response:**
 
@@ -66,47 +65,57 @@ Training is offline (Kaggle GPU). The venue laptop only runs inference.
       "view": "frontal",
       "label": "Tooth Discoloration",
       "confidence": 0.81,
-      "report_tag": "discoloration"
+      "report_tag": "discoloration",
+      "source": "trained_model"
     }
   ],
   "summary": [
     {
       "concern": "discoloration",
       "views": ["frontal", "upper"],
-      "max_confidence": 0.81
+      "max_confidence": 0.81,
+      "source": "trained_model",
+      "note": "Possible staining on visible surfaces"
+    },
+    {
+      "concern": "crooked",
+      "views": ["frontal"],
+      "max_confidence": 0.72,
+      "source": "vision_api",
+      "note": "Crowding suggested on anterior teeth"
+    },
+    {
+      "concern": "wear",
+      "views": ["frontal", "upper"],
+      "max_confidence": 0.64,
+      "source": "vision_api",
+      "note": "Possible incisal wear"
     }
   ]
 }
 ```
 
-`overall` values:
-
-- `consider_visit`
-- `no_obvious_concern`
-
-`report_tag` mapping lives in `api` (single source of truth with `class_map.json`).
+`concern` values for PS1: `discoloration` | `crooked` | `wear` | `other_visual_concern`  
+`source`: `trained_model` | `vision_api`  
+`overall`: `consider_visit` | `no_obvious_concern`
 
 ---
 
-## Inference rules (simple, demo-safe)
+## Fusion rules
 
-1. Run classifier independently on each of the 5 images.  
-2. Confidence threshold (start at **0.55**, tune after val metrics).  
-3. If any view above threshold maps to a concern → `consider_visit`.  
-4. Return raw label + mapped tag so the UI can stay dumb.
-
-No tooth-level FDI in core. Views imply which region was photographed.
+1. Run CNN on each view (224×224). Threshold default **0.55**.  
+2. Call vision API once with all five images + strict JSON schema for crooked / wear / discoloration.  
+3. Map CNN classes: Tooth Discoloration → `discoloration`; other disease classes → `other_visual_concern`.  
+4. Prefer CNN for `discoloration` when above threshold; otherwise use vision API colour signal.  
+5. Always take crooked + wear from vision API.  
+6. If CNN weights missing → vision-only (still demoable).  
+7. If vision API fails → CNN-only + report notes that crooked/wear unavailable.
 
 ---
 
 ## Frontend screens (core)
 
-1. **Landing** — name, 2-minute promise, disclaimer, Start  
-2. **Capture** — one screen per view with silhouette / tip text; retake allowed  
-3. **Analyzing** — spinner while `POST /analyze`  
-4. **Report** — overall banner, list of findings, thumbnails of the 5 shots  
-
-Mobile-first CSS. Demo on phone via same Wi-Fi or tunnel.
+1. Landing → 2. Capture (×5) → 3. Analyzing → 4. Report (PS1 concerns + source + disclaimer)
 
 ---
 
@@ -114,16 +123,16 @@ Mobile-first CSS. Demo on phone via same Wi-Fi or tunnel.
 
 | Item | Where |
 |---|---|
-| Model path | `api` env `MODEL_PATH` (default `../weights/best.pt`) |
-| CORS origins | `api` env `CORS_ORIGINS` |
-| No API keys required for core trained path | — |
-
-Do not commit `.env` with secrets. Dataset stays out of git (use Kaggle download in `train`).
+| `MODEL_PATH` | path to `best.pt` |
+| `CORS_ORIGINS` | web origin(s) |
+| `CONFIDENCE_THRESHOLD` | default `0.55` |
+| `VISION_PROVIDER` | `openai` or `gemini` |
+| `OPENAI_API_KEY` / `GEMINI_API_KEY` | `.env` only — never commit |
 
 ---
 
 ## Non-goals for architecture v1
 
-- Auth, DB, queues, Docker-for-demo-only  
-- Streaming video, on-device TFLite (optional later)  
-- Calling external VLMs as the primary classifier  
+- Auth, DB, chatbot, Flutter  
+- Learned fusion network  
+- Training wear/crooked CNNs  

@@ -8,8 +8,8 @@ Replace `___` with real names.
 
 | Code | Who | Owns (code) | Do not touch (unless asked) |
 |---|---|---|---|
-| **P1** | **You** | `api/` — FastAPI app, `/health`, `/analyze`, model load, CORS, dummy→real swap, merges to `main` | Random UI restyles |
-| **P2** | ___ | `train/` — dataset prep, `train.py` / Kaggle notebook, metrics plots, export `weights/best.pt` + `class_map.json` | Rewriting API routes |
+| **P1** | **You** | `api/` — FastAPI, CNN load, **vision API client**, **fusion**, CORS, dummy→real, merges to `main` | Random UI restyles |
+| **P2** | ___ | `train/` + **Colab** — download [oral-diseases](https://www.kaggle.com/datasets/salmansajid05/oral-diseases), train EfficientNet-B0, metrics, export `weights/best.pt` + `class_map.json` | Rewriting API routes |
 | **P3** | ___ | `web/` **capture path** — landing → 5 guided steps, camera/`getUserMedia`, upload fallback, blobs in state | Report screen (P4); API internals |
 | **P4** | ___ | `web/` **report path** — analyzing screen, report UI, findings list, thumbnails, disclaimer, `api` client (`FormData` POST) | Capture camera logic (P3); training |
 
@@ -37,7 +37,7 @@ Replace `___` with real names.
 | Who | Build |
 |---|---|
 | **P1** | `api` boots; `/analyze` returns dummy JSON matching the contract |
-| **P2** | Kaggle data + training started; paste first val numbers in chat |
+| **P2** | Colab: Kaggle data downloaded + training started; paste first val numbers in chat |
 | **P3** | 5-step capture works on phone (even if analyze is stubbed) |
 | **P4** | Report page renders from **fixture JSON**; then wire real POST |
 

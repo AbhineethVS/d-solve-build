@@ -49,21 +49,25 @@ Some mirrors have duplicates / leakage across folders. Before claiming accuracy:
 | Optim | AdamW, low LR on backbone, higher on classifier |
 | Epochs | ~10–20 with early stopping on val F1 |
 | Export | `weights/best.pt` + `weights/class_map.json` |
+| Train host | **Google Colab** (GPU) |
+| Data source | Kaggle: [salmansajid05/oral-diseases](https://www.kaggle.com/datasets/salmansajid05/oral-diseases) |
 
-Train on **Kaggle Notebooks GPU**. Export checkpoint to laptop for FastAPI.
+Train on **Colab GPU**; pull the dataset from Kaggle (API token or manual upload). Export checkpoint to the laptop for FastAPI.
 
 ---
 
-## Class → report tags
+## Class → report tags (trained CNN)
 
 ```text
-Tooth Discoloration  -> discoloration
+Tooth Discoloration  -> discoloration          (primary PS1 path for colour)
 Calculus             -> other_visual_concern
 Caries               -> other_visual_concern
 Gingivitis           -> other_visual_concern
 Mouth Ulcer          -> other_visual_concern
 Hypodontia           -> other_visual_concern
 ```
+
+**Crooked + wear are not trained here** — they come from the vision API (see D-015 / `docs/PLAN.md`).
 
 UI copy should prefer plain language (“possible staining”) over clinical certainty.
 

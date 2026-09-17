@@ -17,6 +17,22 @@ Format (newest at top):
 
 ---
 
+## D-015 — Hybrid: trained CNN + vision API for PS1 concerns
+- **Date:** 2026-09-17
+- **Status:** accepted
+- **Decision:** Run EfficientNet-B0 (`best.pt`) and a vision API (GPT-4o or Gemini Flash) in parallel on the five photos. CNN owns discoloration (+ other Oral Diseases classes as bonus). Vision API owns crooked teeth and tooth wear. Fuse in FastAPI into one report with `source` per finding.
+- **Why:** Oral Diseases labels match discoloration, not crooked/wear. Hybrid satisfies the written PS1 brief without fake wear/crooked training data.
+- **Rejects / alternatives:** CNN-only (misses two PS1 concerns); vision-only (weaker “we trained” story); multi-CNN tooth/gum/occlusion stack.
+- **Follow-ups:** Pick provider when keys available; update skills; implement fusion in `api/`.
+
+## D-014 — Train on Colab with Kaggle Oral Diseases
+- **Date:** 2026-09-17
+- **Status:** accepted (host flexible: Colab **or** Kaggle Notebook GPU)
+- **Decision:** Dataset = [salmansajid05/oral-diseases](https://www.kaggle.com/datasets/salmansajid05/oral-diseases). Training host = **Google Colab** (GPU). Model remains EfficientNet-B0 → export `best.pt` + metrics for the API.
+- **Why:** Team preference; Colab GPU is easy and doesn't require training on the demo laptop. Dataset already chosen for discoloration + related oral classes.
+- **Rejects / alternatives:** Training only inside Kaggle Notebooks (still OK as backup); training on CPU laptop.
+- **Follow-ups:** Kaggle API token in Colab to download the dataset; keep weights out of git (see `.gitignore`).
+
 ## D-013 — All four code; no dedicated demo seat
 - **Date:** 2026-09-17
 - **Status:** accepted
@@ -73,7 +89,7 @@ Format (newest at top):
 
 ## D-006 — Train EfficientNet-B0 on Kaggle Oral Diseases
 - **Date:** 2026-09-17
-- **Status:** accepted
+- **Status:** superseded in part by D-014 (training host → Colab; model + dataset unchanged)
 - **Decision:** Primary model = ImageNet-pretrained EfficientNet-B0 via `timm`, fine-tuned on Kaggle Oral Diseases; export `weights/best.pt` + `class_map.json`. Train on Kaggle GPU; infer on laptop CPU.
 - **Why:** Stronger hackathon story than VLM-only; dataset includes Tooth Discoloration matching PS1; B0 is fast enough for 36h + CPU demo.
 - **Rejects / alternatives:** Gemini as primary classifier; ViT/Swin for same demo; inventing a wear class with no labels.
