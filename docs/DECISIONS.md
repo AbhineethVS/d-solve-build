@@ -17,9 +17,17 @@ Format (newest at top):
 
 ---
 
-## D-019 — Implementation plan as sequential Codex prompts (one PC)
+## D-020 — Implementation phases as full plans (prompt + manual tests)
 - **Date:** 2026-09-17
 - **Status:** accepted
+- **Decision:** Rewrite `docs/IMPLEMENTATION.md` so each phase is a complete plan: purpose narrative, full Codex prompt, manual tests to run, pass/fail — not checkbox-only lists. FE+BE on one PC; advance only after tests pass.
+- **Why:** Orchestrator needs verify-yourself gates between Codex prompts.
+- **Rejects / alternatives:** Prompt-only doc (D-019 style without test protocol).
+- **Follow-ups:** Use Phase 0 as the template for how strictly to gate later phases.
+
+## D-019 — Implementation plan as sequential Codex prompts (one PC)
+- **Date:** 2026-09-17
+- **Status:** superseded by D-020 (prompts retained; each phase now includes manual test protocol)
 - **Decision:** Replace phase checklist style in `docs/IMPLEMENTATION.md` with copy-paste Codex prompts (Phases 0–6). FE+BE assumed on **one computer** (`localhost`). One prompt at a time.
 - **Why:** Pair works on a single machine with an AI coding agent; prompts reduce ambiguity.
 - **Rejects / alternatives:** Multi-machine-only instructions; dumping all phases in one prompt.
