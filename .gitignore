@@ -1,0 +1,35 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Node
+node_modules/
+dist/
+web/dist/
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Models / data (keep repo lean — link in README)
+weights/*.pt
+weights/*.pth
+weights/*.onnx
+data/
+datasets/
+*.h5
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+*.swp
+
+# Train artifacts
+runs/
+lightning_logs/
+*.log

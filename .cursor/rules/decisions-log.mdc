@@ -1,0 +1,10 @@
+---
+description: Require updating docs/DECISIONS.md whenever a material build decision is made
+alwaysApply: true
+---
+
+# Decisions log
+
+When you make, change, or reject a material decision (stack, scope, API, model, UX, hosting, dependencies, feature cut/add), append an entry to `docs/DECISIONS.md` in the **same turn**, newest at top. Follow the template at the top of that file. Do not rewrite old entries; mark them superseded instead.
+
+Read `docs/DECISIONS.md` before contradicting prior accepted decisions.
