@@ -80,6 +80,7 @@ See [`docs/PLAN.md`](docs/PLAN.md), [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.m
 | [`docs/DATASETS.md`](docs/DATASETS.md) | What we train on and why |
 | [`docs/CHECKLIST.md`](docs/CHECKLIST.md) | 36-hour checkpoints |
 | [`docs/DECISIONS.md`](docs/DECISIONS.md) | Living decision log — agents must update |
+| [`docs/DESIGN.md`](docs/DESIGN.md) | Layout & UX wireframes (colours free) |
 | [`docs/TEAM.md`](docs/TEAM.md) | FE+BE pair, Train, Wow |
 | [`docs/guides/`](docs/guides/) | Step-by-step role guides |
 | [`docs/SKILLS.md`](docs/SKILLS.md) | Agent skills |

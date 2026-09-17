@@ -2,7 +2,7 @@
 
 You own **`web/`**. You work **in unison with Backend** — same contract, frequent sync. Do not invent API fields; change them with BE and update `docs/ARCHITECTURE.md`.
 
-**Stack:** Vite + React + TypeScript + Tailwind · Skills: `web-capture-widget`, `ui-ux-screening`
+Related: follow **`docs/DESIGN.md`** for layout wireframes (colours are free). Skill: `ui-ux-screening`.
 
 ---
 

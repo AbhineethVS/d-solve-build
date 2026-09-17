@@ -1,0 +1,15 @@
+---
+description: When building web UI or report-facing API, follow docs/DESIGN.md for layout (not colors)
+globs: web/**/*.{tsx,ts,css}, api/**/*schema*, api/**/fusion*
+alwaysApply: false
+---
+
+# Design layout reference
+
+Before changing screens, capture flow, or report-facing API fields:
+
+1. Read `docs/DESIGN.md` (layout, wireframes, microcopy jobs).  
+2. Do **not** invent extra core screens.  
+3. Do **not** treat old hex/colour lists in skills as mandatory — `DESIGN.md` leaves colour to the implementer.  
+4. Keep Capture order: frontal → upper → lower → left → right.  
+5. Report leads with crooked / wear / discoloration when present.

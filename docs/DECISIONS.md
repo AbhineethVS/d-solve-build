@@ -17,6 +17,14 @@ Format (newest at top):
 
 ---
 
+## D-017 — DESIGN.md layout-only (no prescribed colours)
+- **Date:** 2026-09-17
+- **Status:** accepted
+- **Decision:** Add `docs/DESIGN.md` locking screen layout, flow, hierarchy, and microcopy jobs. Exact colours/fonts left to the implementing agent. Agents building `web/` (and report-facing API) must reference it.
+- **Why:** FE/BE/Wow need shared structure without over-constraining visual styling mid-hackathon.
+- **Rejects / alternatives:** Full colour-token design system in Markdown; building with no layout contract.
+- **Follow-ups:** Cursor rule `design-layout.mdc`; skills point at DESIGN.md.
+
 ## D-016 — Team: FE+BE pair, Train, Wow
 - **Date:** 2026-09-17
 - **Status:** accepted
