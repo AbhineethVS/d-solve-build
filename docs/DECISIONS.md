@@ -17,9 +17,17 @@ Format (newest at top):
 
 ---
 
-## D-018 — Phased FE+BE implementation plan
+## D-019 — Implementation plan as sequential Codex prompts (one PC)
 - **Date:** 2026-09-17
 - **Status:** accepted
+- **Decision:** Replace phase checklist style in `docs/IMPLEMENTATION.md` with copy-paste Codex prompts (Phases 0–6). FE+BE assumed on **one computer** (`localhost`). One prompt at a time.
+- **Why:** Pair works on a single machine with an AI coding agent; prompts reduce ambiguity.
+- **Rejects / alternatives:** Multi-machine-only instructions; dumping all phases in one prompt.
+- **Follow-ups:** Orchestrator pastes prompts in order; trainer still separate.
+
+## D-018 — Phased FE+BE implementation plan
+- **Date:** 2026-09-17
+- **Status:** superseded by D-019 (same phases; delivery format = Codex prompts)
 - **Decision:** Add `docs/IMPLEMENTATION.md` — phases 0–6 for Frontend+Backend together (scaffold → dummy loop → capture → CNN → vision/fusion → harden → optional wow). Trainer parallel from phase 0.
 - **Why:** Pair needs a shared build order with exit criteria so they stay in unison.
 - **Rejects / alternatives:** Ad-hoc coding without phase gates; waiting on `best.pt` before UI loop.
