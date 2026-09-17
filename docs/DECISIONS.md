@@ -17,6 +17,14 @@ Format (newest at top):
 
 ---
 
+## D-018 — Phased FE+BE implementation plan
+- **Date:** 2026-09-17
+- **Status:** accepted
+- **Decision:** Add `docs/IMPLEMENTATION.md` — phases 0–6 for Frontend+Backend together (scaffold → dummy loop → capture → CNN → vision/fusion → harden → optional wow). Trainer parallel from phase 0.
+- **Why:** Pair needs a shared build order with exit criteria so they stay in unison.
+- **Rejects / alternatives:** Ad-hoc coding without phase gates; waiting on `best.pt` before UI loop.
+- **Follow-ups:** Orchestrator enforces exit criteria before advancing.
+
 ## D-017 — DESIGN.md layout-only (no prescribed colours)
 - **Date:** 2026-09-17
 - **Status:** accepted

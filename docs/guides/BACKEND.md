@@ -2,7 +2,8 @@
 
 You own **`api/`**. You work **in unison with Frontend** — ship a stable contract early, then deepen hybrid intelligence behind it.
 
-**Stack:** FastAPI + Uvicorn · CNN EfficientNet-B0 · Vision API (GPT-4o or Gemini) · Skill: `fastapi-screening`
+**Stack:** FastAPI + Uvicorn · CNN EfficientNet-B0 · Vision API (GPT-4o or Gemini) · Skill: `fastapi-screening`  
+**Phases:** follow **`docs/IMPLEMENTATION.md`** with FE.
 
 ---
 
@@ -14,7 +15,7 @@ You own **`api/`**. You work **in unison with Frontend** — ship a stable contr
 
 ## Before you code
 
-1. Read `docs/ARCHITECTURE.md` — that JSON is the contract.  
+1. Read `docs/ARCHITECTURE.md` and **`docs/IMPLEMENTATION.md`** — that JSON + phase exit criteria are the contract.  
 2. Sit with FE: agree field names and response shape; paste a **fixture** they can use immediately.  
 3. Create `api/.env` (gitignored): keys later; `CORS_ORIGINS` for Vite (`http://localhost:5173`, phone LAN origin).  
 4. Sync with FE hourly; sync with Train when `best.pt` is ready; sync with Wow on JSON only.

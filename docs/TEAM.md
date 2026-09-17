@@ -24,7 +24,7 @@ Pitch video / social = **endgame**, everyone’s job for an hour — not a fifth
 | Trainer | [`docs/guides/TRAINER.md`](guides/TRAINER.md) |
 | Wow | [`docs/guides/WOW.md`](guides/WOW.md) |
 
-Contract law: [`docs/ARCHITECTURE.md`](ARCHITECTURE.md) · Plan: [`docs/PLAN.md`](PLAN.md)
+Contract law: [`docs/ARCHITECTURE.md`](ARCHITECTURE.md) · Plan: [`docs/PLAN.md`](PLAN.md) · **Phases:** [`docs/IMPLEMENTATION.md`](IMPLEMENTATION.md)
 
 ---
 

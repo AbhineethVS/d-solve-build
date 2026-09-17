@@ -2,7 +2,7 @@
 
 You own **`web/`**. You work **in unison with Backend** — same contract, frequent sync. Do not invent API fields; change them with BE and update `docs/ARCHITECTURE.md`.
 
-Related: follow **`docs/DESIGN.md`** for layout wireframes (colours are free). Skill: `ui-ux-screening`.
+Related: follow **`docs/DESIGN.md`** for layout · **`docs/IMPLEMENTATION.md`** for phases. Skill: `ui-ux-screening`.
 
 ---
 
@@ -14,7 +14,7 @@ Ship a mobile-first widget: **Landing → 5 captures → Analyzing → Report** 
 
 ## Before you write UI
 
-1. Read `docs/PLAN.md` (hybrid) and `docs/ARCHITECTURE.md` (JSON shape).  
+1. Read `docs/PLAN.md` (hybrid), `docs/ARCHITECTURE.md` (JSON), and **`docs/IMPLEMENTATION.md`** (which phase you’re on).  
 2. Agree with BE on: base URL, field names (`frontal|upper|lower|left|right`), response `summary[]`.  
 3. Get a **fixture JSON** from BE (or copy the example in ARCHITECTURE) so you can build report before the real model exists.  
 4. Sync with BE every ~1 hour: “does the contract still match?”
