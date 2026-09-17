@@ -17,6 +17,14 @@ Format (newest at top):
 
 ---
 
+## D-016 — Team: FE+BE pair, Train, Wow
+- **Date:** 2026-09-17
+- **Status:** accepted
+- **Decision:** Frontend and Backend work in unison on the product loop. Trainer runs GPU training in parallel. Wow builds evidence/visual map on stable report JSON and must not block core. Step-by-step guides in `docs/guides/`.
+- **Why:** Pairing FE/BE improves contract quality; dedicated train keeps ML moving; wow is sequenced product polish.
+- **Rejects / alternatives:** D-013 four equal code silos (capture/report split); dedicated demo/story seat.
+- **Follow-ups:** Fill names in `docs/TEAM.md`.
+
 ## D-015 — Hybrid: trained CNN + vision API for PS1 concerns
 - **Date:** 2026-09-17
 - **Status:** accepted
@@ -35,7 +43,7 @@ Format (newest at top):
 
 ## D-013 — All four code; no dedicated demo seat
 - **Date:** 2026-09-17
-- **Status:** accepted
+- **Status:** superseded by D-016
 - **Decision:** P1=`api/`, P2=`train/`, P3=`web` capture, P4=`web` report+client. Pitch video / story handled together at endgame, not as a standing role.
 - **Why:** Team wants everyone coding now; demo work is naturally late-bound.
 - **Rejects / alternatives:** D-012 dedicated “demo & story” person.

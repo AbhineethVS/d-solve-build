@@ -13,7 +13,7 @@ Hackathon: **Thu 6:00 PM → Sat 6:00 AM code freeze** (see event brochure).
 - [ ] Kaggle account ready + dataset accepted ([oral-diseases](https://www.kaggle.com/datasets/salmansajid05/oral-diseases))  
 - [ ] Colab GPU runtime ready + Kaggle API token for download  
 - [x] GitHub repo created (public, per rules)  
-- [x] Who owns what decided — see `docs/TEAM.md` (all 4 code: P1 api, P2 train, P3 capture, P4 report)  
+- [x] Who owns what decided — FE+BE pair, Train, Wow (`docs/TEAM.md` + `docs/guides/`)  
 
 ---
 

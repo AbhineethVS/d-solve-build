@@ -1,78 +1,49 @@
-# Team split (4 people — all coding)
+# Team split (locked) — pair + train + wow
 
 **Repo:** https://github.com/AbhineethVS/d-solve-build  
 
-**Rule:** Everyone codes on the core pipeline. Pitch video / story / social post = **endgame only** (last hours before freeze), not a dedicated seat now.
+| Seat | Who | Owns |
+|---|---|---|
+| **FE** | ___ | `web/` — capture + report UI (works **in unison** with BE) |
+| **BE** | ___ | `api/` — `/analyze`, CNN load, vision API, **fusion** (works **in unison** with FE) |
+| **Train** | ___ | Kaggle/Colab → `best.pt` + metrics (parallel) |
+| **Wow** | ___ | Evidence / visual map on top of stable report JSON (does not block core) |
 
-Replace `___` with real names.
+**Rule:** FE + BE sit together (or same chat), share one API contract, sync ~hourly. Train and Wow stay parallel but **do not** redesign the API without the pair.
 
-| Code | Who | Owns (code) | Do not touch (unless asked) |
-|---|---|---|---|
-| **P1** | **You** | `api/` — FastAPI, CNN load, **vision API client**, **fusion**, CORS, dummy→real, merges to `main` | Random UI restyles |
-| **P2** | ___ | `train/` + **Colab** — download [oral-diseases](https://www.kaggle.com/datasets/salmansajid05/oral-diseases), train EfficientNet-B0, metrics, export `weights/best.pt` + `class_map.json` | Rewriting API routes |
-| **P3** | ___ | `web/` **capture path** — landing → 5 guided steps, camera/`getUserMedia`, upload fallback, blobs in state | Report screen (P4); API internals |
-| **P4** | ___ | `web/` **report path** — analyzing screen, report UI, findings list, thumbnails, disclaimer, `api` client (`FormData` POST) | Capture camera logic (P3); training |
-
-**Integration contract (agree once, then code in parallel):**
-
-- Views: `frontal` | `upper` | `lower` | `left` | `right`  
-- API: multipart field names = those five; JSON shape in `docs/ARCHITECTURE.md`  
-- P3 hands five `Blob`s to shared state; P4 POSTs them and renders the response  
-- P2 drops `best.pt` where P1 expects (`weights/`); until then P1 serves **dummy** labels so P3/P4 aren’t blocked  
+Pitch video / social = **endgame**, everyone’s job for an hour — not a fifth seat.
 
 ---
 
-## Why this split
+## Guides (step-by-step)
 
-- Four coders, **four folders/surfaces** → fewer merge fights.  
-- P1 unifies the pipe; P2 is offline/GPU; P3 and P4 split the UI by screen.  
-- Demo/story is everyone’s job **at the end**, not a fourth coding role.
+| Role | Guide |
+|---|---|
+| Frontend | [`docs/guides/FRONTEND.md`](guides/FRONTEND.md) |
+| Backend | [`docs/guides/BACKEND.md`](guides/BACKEND.md) |
+| Trainer | [`docs/guides/TRAINER.md`](guides/TRAINER.md) |
+| Wow | [`docs/guides/WOW.md`](guides/WOW.md) |
+
+Contract law: [`docs/ARCHITECTURE.md`](ARCHITECTURE.md) · Plan: [`docs/PLAN.md`](PLAN.md)
 
 ---
 
-## Parallel schedule
+## How the four move (timeline)
 
-### Now → first working loop
-
-| Who | Build |
-|---|---|
-| **P1** | `api` boots; `/analyze` returns dummy JSON matching the contract |
-| **P2** | Colab: Kaggle data downloaded + training started; paste first val numbers in chat |
-| **P3** | 5-step capture works on phone (even if analyze is stubbed) |
-| **P4** | Report page renders from **fixture JSON**; then wire real POST |
-
-### When `best.pt` lands
-
-| Who | Build |
-|---|---|
-| **P1** | Load checkpoint; real predictions |
-| **P2** | Confusion matrix + metrics blurb for README |
-| **P3** | Capture polish (guides, retake, errors) |
-| **P4** | Report polish (banner, confidence, disclaimer) |
-
-### Endgame (all four — not a separate “demo guy”)
-
-- Freeze features  
-- Together: README setup, 30s+ pitch video, one backup screen recording, Q&A cheat sheet  
-- P1 still owns “does the live demo path work”
+```
+Now → first loop:     FE+BE lock JSON → dummy /analyze → 5 photos → report
+Parallel:             Train starts GPU job
+When JSON stable:     Wow builds evidence/map against fixture JSON
+When best.pt ready:   BE loads CNN (FE unchanged)
+When API key ready:   BE adds vision path (crooked/wear)
+Endgame:              polish + pitch together
+```
 
 ---
 
 ## Git
 
-- Prefer short branches: `p1/api`, `p2/train`, `p3/capture`, `p4/report`  
-- **P1 merges** to `main`  
-- Blocked &gt;20 min → ping P1  
-- Scope: `docs/PLAN.md` cut list; log changes in `docs/DECISIONS.md`
-
----
-
-## Q&A speakers (still useful later)
-
-| Topic | Speaker |
-|---|---|
-| API / architecture | P1 |
-| Training / metrics | P2 |
-| Capture UX | P3 |
-| Report / product flow | P4 |
-| Pitch video | whoever is least exhausted — decide Friday evening |
+- Branches: `fe/...`, `be/...`, `train/...`, `wow/...`  
+- Prefer **BE or FE lead merges** to `main` after a quick look  
+- Blocked >20 min → ping the pair  
+- Log material changes in `docs/DECISIONS.md`
