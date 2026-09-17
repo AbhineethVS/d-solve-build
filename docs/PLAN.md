@@ -71,16 +71,17 @@ Always show disclaimer: screening ≠ diagnosis.
 
 ---
 
-## Team split (4 people — all coding)
+## Team split (pair + train + wow)
 
-See **[`docs/TEAM.md`](TEAM.md)**. Pitch/demo is **endgame**, not a dedicated role now.
+See **[`docs/TEAM.md`](TEAM.md)** and step-by-step guides under **`docs/guides/`**.
 
-| Code | Role | Owns |
+| Seat | Role | Owns |
 |---|---|---|
-| **P1 (You)** | Lead / API | `api/`, CNN load, vision API client, **fusion**, merges |
-| **P2** | Training | Kaggle/Colab train, `best.pt`, metrics |
-| **P3** | Capture UI | `web/` guided 5-photo flow + camera |
-| **P4** | Report UI | findings by PS1 concern + source badges + API client |
+| **FE + BE** | Work **in unison** | `web/` + `api/` — shared contract, hourly sync |
+| **Train** | Parallel | Kaggle/Colab → `best.pt` + metrics |
+| **Wow** | After JSON stable | Evidence / visual map — must not block core |
+
+Guides: [`FRONTEND.md`](guides/FRONTEND.md) · [`BACKEND.md`](guides/BACKEND.md) · [`TRAINER.md`](guides/TRAINER.md) · [`WOW.md`](guides/WOW.md)
 
 ---
 
