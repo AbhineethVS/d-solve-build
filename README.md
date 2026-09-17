@@ -77,6 +77,7 @@ Training: see [`docs/DATASETS.md`](docs/DATASETS.md) and [`train/README.md`](tra
 | [`docs/DATASETS.md`](docs/DATASETS.md) | What we train on and why |
 | [`docs/CHECKLIST.md`](docs/CHECKLIST.md) | 36-hour checkpoints |
 | [`docs/DECISIONS.md`](docs/DECISIONS.md) | Living decision log — agents must update |
+| [`docs/TEAM.md`](docs/TEAM.md) | 4-person work split |
 | [`docs/SKILLS.md`](docs/SKILLS.md) | Agent skills installed for this repo |
 
 ---

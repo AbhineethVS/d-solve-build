@@ -11,8 +11,8 @@ Hackathon: **Thu 6:00 PM → Sat 6:00 AM code freeze** (see event brochure).
 - [x] Docs written (`README`, `PLAN`, `ARCHITECTURE`, `DATASETS`)  
 - [ ] Team agrees on cut list (no extras before core)  
 - [ ] Kaggle account ready + dataset accepted  
-- [ ] GitHub repo created (public, per rules)  
-- [ ] Who owns ML / API / Web decided  
+- [x] GitHub repo created (public, per rules)  
+- [x] Who owns what decided — see `docs/TEAM.md` (all 4 code: P1 api, P2 train, P3 capture, P4 report)  
 
 ---
 

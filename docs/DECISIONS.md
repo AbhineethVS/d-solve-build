@@ -17,6 +17,22 @@ Format (newest at top):
 
 ---
 
+## D-013 — All four code; no dedicated demo seat
+- **Date:** 2026-09-17
+- **Status:** accepted
+- **Decision:** P1=`api/`, P2=`train/`, P3=`web` capture, P4=`web` report+client. Pitch video / story handled together at endgame, not as a standing role.
+- **Why:** Team wants everyone coding now; demo work is naturally late-bound.
+- **Rejects / alternatives:** D-012 dedicated “demo & story” person.
+- **Follow-ups:** Fill names in `docs/TEAM.md`.
+
+## D-012 — Four-person work split (P1 heavy coding)
+- **Date:** 2026-09-17
+- **Status:** superseded by D-013
+- **Decision:** P1 (You) = lead engineer (`api/` + core `web/` + model integration, merges). P2 = ML runner (Kaggle/`best.pt`/metrics). P3 = product UI polish. P4 = demo, pitch video, README/story. Details in `docs/TEAM.md`.
+- **Why:** One heavy coder avoids merge chaos; other seats are deliverable-based so no one needs to be a specialist.
+- **Rejects / alternatives:** Four people all coding the same features; equal “everyone does everything.”
+- **Follow-ups:** Fill real names in `docs/TEAM.md`.
+
 ## D-011 — GitHub remote d-solve-build
 - **Date:** 2026-09-17
 - **Status:** accepted

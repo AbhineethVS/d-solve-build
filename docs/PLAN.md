@@ -71,16 +71,16 @@ Always show disclaimer: screening ≠ diagnosis.
 
 ---
 
-## Team split (suggested)
+## Team split (4 people — all coding)
 
-| Seat | Owns |
-|---|---|
-| ML | Dataset download, train notebook/script, metrics, `best.pt` |
-| Backend | FastAPI, load model, `/analyze`, CORS, dummy→real swap |
-| Frontend | Capture flow, report UI, phone demo wiring |
-| All | Pitch video, README, demo script, mentor check-ins |
+See **[`docs/TEAM.md`](TEAM.md)**. Pitch/demo is **endgame**, not a dedicated role now.
 
-With 2 people: ML+API together, UI alone (or reverse).
+| Code | Role | Owns |
+|---|---|---|
+| **P1 (You)** | Lead / API | `api/`, model load, merges, integration |
+| **P2** | Training | `train/`, Kaggle, `best.pt`, metrics |
+| **P3** | Capture UI | `web/` guided 5-photo flow + camera |
+| **P4** | Report UI | `web/` analyzing + report + API client |
 
 ---
 
