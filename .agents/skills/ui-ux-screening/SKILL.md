@@ -14,19 +14,15 @@ This is a **2-minute clinical-feeling widget**, not a SaaS marketing site and no
 
 **Screens only (core):** Landing → Capture (×5) → Analyzing → Report.
 
-## Design direction (locked for this project)
+## Design direction
 
-| Token | Choice |
+Follow **`docs/DESIGN.md`** for layout and wireframes.
+
+| Locked in DESIGN.md | Left to implementing agent |
 |---|---|
-| Mood | Clean clinical trust, calm, phone-first |
-| Primary | Deep teal / medical blue-green (e.g. `#0F6B6B`) |
-| Accent | Soft coral for CTA only (e.g. `#E07A5F`) — not purple |
-| Background | Soft cool gray-white (`#F4F7F7`), subtle depth not flat void |
-| Text | Near-ink `#1A2332` |
-| Display font | Distinctive sans (e.g. **Plus Jakarta Sans** or **DM Sans**) — not Inter/Roboto/Arial |
-| Body font | Same family or paired clean sans |
+| 4 screens, capture order, CTA zone, report hierarchy | Exact colours, fonts, gradients |
 
-**Avoid:** purple-on-white AI gradients, dark neon cyber look, emoji-as-icons, card farms in the hero, floating badges on media.
+**Avoid:** purple-on-white AI gradients, dark neon cyber look, emoji-as-icons, card farms in the hero, floating badges on media. Do not treat old hex examples as mandatory.
 
 ## Capture UX (critical)
 
